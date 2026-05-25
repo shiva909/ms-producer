@@ -27,6 +27,9 @@ public class MessageController {
     @PostMapping("/send")
     public ResponseEntity<String> sendMessageToRMQ(@RequestBody Map<String,String> msg){
         rabbitTemplate.convertAndSend(msg.get("exchange-name"),msg.get("routing-key"),msg.get("message"));
+//        for(int i=0;i<260;i++){
+//            rabbitTemplate.convertAndSend("second-exchange","second","message"+i);
+//        }
         return ResponseEntity.ok("Send Successful");
     }
 }
