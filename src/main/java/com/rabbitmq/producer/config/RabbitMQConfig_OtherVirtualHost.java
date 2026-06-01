@@ -1,0 +1,42 @@
+package com.rabbitmq.producer.config;
+
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class RabbitMQConfig_OtherVirtualHost {
+
+
+        @Bean
+        public ConnectionFactory shivaConnectionFactory() {
+            CachingConnectionFactory factory =
+                    new CachingConnectionFactory("localhost");
+
+            factory.setUsername("guest");
+            factory.setPassword("guest");
+
+            // IMPORTANT
+            factory.setVirtualHost("/shiva");
+
+            return factory;
+        }
+
+        @Bean
+        public RabbitTemplate shivaRabbitTemplate() {
+            return new RabbitTemplate(shivaConnectionFactory());
+        }
+
+}
+/*
+If you create a virtual host, you must also create a user for that virtual host.
+    @Autowired
+    private RabbitTemplate shivaRabbitTemplate;
+    shivaRabbitTemplate.convertAndSend(
+                "second-exchange",
+                "second",
+                "Hello From Shiva VHost"
+        );
+ */
