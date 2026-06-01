@@ -29,4 +29,18 @@ public class MessageController {
         rabbitTemplate.convertAndSend(msg.get("exchange-name"),msg.get("routing-key"),msg.get("message"));
         return ResponseEntity.ok("Send Successful");
     }
+
+    //publisher confirm callback.
+//    rabbitTemplate.setConfirmCallback(
+//            (correlationData,ack,cause)->
+//
+//    {
+//
+//        if (ack) {
+//            System.out.println("Message confirmed");
+//        } else {
+//            System.out.println("Failed: " + cause);
+//        }
+//    }
+//);
 }
