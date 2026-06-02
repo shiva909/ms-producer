@@ -1,6 +1,6 @@
 package com.rabbitmq.producer.controller;
 
-import com.rabbitmq.producer.RedisService;
+import com.rabbitmq.producer.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +13,13 @@ public class RedisController {
     RedisService redisService;
 
     @PostMapping("/set")
-    public String set(@RequestBody Map<String,String> msg){
-        String key=msg.get("key");
-        String value=msg.get("value");
+    public String set(@RequestBody Map<String,Object> msg){
+        String key=(String) msg.get("key");
+        Object value=msg.get("value");
         redisService.set(key,value);
         return "Data stored successfully";
     }
+
 
     @GetMapping("/get/{key}")
     public String get(@PathVariable String key) {
