@@ -71,3 +71,12 @@ Need to see this: bypasses Spring Proxy.
 "Spring, before executing this method,
 check the configured CacheManager."
  */
+
+
+/*
+these annotations don't use the redis template ,they use cache manager , by default cache manager
+uses the jdk serializable , we have to override that , to store objects in the form of strings.
+ */
+
+
+/* if we have cache this time took log is also not visible.(i mean even that line is also not hitting).
