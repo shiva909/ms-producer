@@ -9,6 +9,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/redisCache")
 public class RedisCacheController {
@@ -28,6 +34,30 @@ public class RedisCacheController {
          long diff = System.currentTimeMillis() - startTime;
          System.out.println("Time Took: for key "+name+" is " +diff+" ms ");
         return company;
+     }
+
+     @Cacheable("userDetails")
+     @GetMapping("/get_passed_data")
+    public List<Map<String , Object>> getSomeRandomDataInsteadOfObjects(@RequestBody Map<String , Object> requestBody) throws InterruptedException {
+        Long startTime = System.currentTimeMillis();
+        List<Map<String , Object>> result = new ArrayList<>();
+        Map<String , Object> shivaDetails = new HashMap<>();
+        shivaDetails.put("name" , "Venkat shiva");
+        shivaDetails.put("age" , 24);
+        shivaDetails.put("company" , "Google");
+        shivaDetails.put("salary",23456789.0);
+        result.add(shivaDetails);
+        Map<String , Object> venkateswarluDetails = new HashMap<>();
+        venkateswarluDetails.put("name" , "Venkateswarlu");
+        venkateswarluDetails.put("age" , 23);
+        venkateswarluDetails.put("company" , "Amazon");
+        venkateswarluDetails.put("salary",new BigDecimal("12345678.98"));
+        result.add(venkateswarluDetails);
+        Thread.sleep(1000); // Simulating a delay to demonstrate caching
+        Long endTime = System.currentTimeMillis();
+        System.out.println("Time Took: for key "+requestBody.get("page")+" is " +(endTime-startTime)+" ms ");
+        return result;
+
      }
 }
 /*
@@ -79,4 +109,4 @@ uses the jdk serializable , we have to override that , to store objects in the f
  */
 
 
-/* if we have cache this time took log is also not visible.(i mean even that line is also not hitting).
+/* if we have cache this time took log is also not visible.(i mean even that line is also not hitting) */
